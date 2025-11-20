@@ -7,6 +7,9 @@ export default function Layout({ children }) {
   const { user, signOut } = useAuth()
   const location = useLocation()
 
+  const adminEmail = import.meta.env.VITE_ADMIN_EMAIL
+  const isAdmin = user?.email === adminEmail
+
   const handleSignOut = async () => {
     try {
       await signOut()
@@ -42,17 +45,22 @@ export default function Layout({ children }) {
                 <HomeIcon className="w-4 h-4" />
                 <span className="hidden sm:inline">Inicio</span>
               </Link>
-              <Link
-                to="/admin"
-                className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
-                  isActive('/admin')
-                    ? 'bg-primary-600 text-white'
-                    : 'text-gray-300 hover:bg-gray-800'
-                }`}
-              >
-                <Settings className="w-4 h-4" />
-                <span className="hidden sm:inline">Admin</span>
-              </Link>
+
+              {/* Solo mostrar Admin si el usuario es administrador */}
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+                    isActive('/admin')
+                      ? 'bg-primary-600 text-white'
+                      : 'text-gray-300 hover:bg-gray-800'
+                  }`}
+                >
+                  <Settings className="w-4 h-4" />
+                  <span className="hidden sm:inline">Admin</span>
+                </Link>
+              )}
+
               <button
                 onClick={handleSignOut}
                 className="px-4 py-2 rounded-lg font-medium transition-colors text-gray-300 hover:bg-gray-800 flex items-center gap-2"

@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 import { PlayerProvider } from './context/PlayerContext'
 import Auth from './components/Auth'
 import Layout from './components/Layout'
+import ProtectedAdminRoute from './components/ProtectedAdminRoute'
 import Home from './pages/Home'
 import Admin from './pages/Admin'
 
@@ -55,9 +56,11 @@ function AppRoutes() {
         path="/admin"
         element={
           <ProtectedRoute>
-            <Layout>
-              <Admin />
-            </Layout>
+            <ProtectedAdminRoute>
+              <Layout>
+                <Admin />
+              </Layout>
+            </ProtectedAdminRoute>
           </ProtectedRoute>
         }
       />
